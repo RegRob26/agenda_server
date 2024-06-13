@@ -7,6 +7,7 @@ import * as jwtC from './constants'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../users/entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
 
 
 @Module({
@@ -21,7 +22,11 @@ import { APP_GUARD } from '@nestjs/core';
   ],
   controllers: [AuthController],
   providers: [
-    AuthService
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    }
   ],
 })
 export class AuthModule {}

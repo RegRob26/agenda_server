@@ -6,6 +6,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import {User} from "./users/entities/user.entity";
 import { AuthModule } from './middleware/auth/auth.module';
+import { ContactModule } from './contact/contact.module';
+import { Contact } from './contact/entities/contact.entity';
+import { Phone } from './contact/phones/entities/phone.entity';
 
 @Module({
   imports: [
@@ -21,13 +24,14 @@ import { AuthModule } from './middleware/auth/auth.module';
         username: configService.get<string>('DATABASE_USER'),
         password: configService.get<string>('DATABASE_PWD'),
         database: configService.get<string>('DATABASE_DATABASE'),
-        entities: [User],
+        entities: [User, Contact, Phone],
         synchronize: true,
         logging: true,
       }),
     }),
     UsersModule,
     AuthModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],
