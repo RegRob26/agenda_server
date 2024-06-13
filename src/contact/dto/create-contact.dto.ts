@@ -35,5 +35,7 @@ export class CreateContactDto {
 
 	@IsArray()
 	@IsNotEmpty()
-	emails: string[];
+	@ValidateNested({ each: true })
+	@IsObject({ each: true })
+	emails:  Record<string, any>[];
 }

@@ -18,10 +18,7 @@ export class AuthService {
     const user = await this.usersService.signIn(createAuthDto);
     try {
       if (user.user_id) {
-        console.log('user', user);
-
         const payload = { sub: user.user_id, email: createAuthDto.email };
-        console.log(payload);
         const access_token = await this.jwtService.signAsync(payload);
         return {
           ...user,
@@ -31,7 +28,6 @@ export class AuthService {
       return user;
     }
     catch (error) {
-      console.log('error');
       return error;
     }
   }

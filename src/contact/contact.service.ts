@@ -1,21 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Contact } from './entities/contact.entity';
 import { DataSource, Repository } from 'typeorm';
-import { PhonesService } from './phones/phones.service';
 import { Phone } from './phones/entities/phone.entity';
 import { validateOrReject } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { CreatePhoneDto } from './phones/dto/create-phone.dto';
+import { CreateEmailDto } from './emails/dto/create-email.dto';
+import { Email } from './emails/entities/email.entity';
 
 @Injectable()
 export class ContactService {
 	constructor(
-		@InjectRepository(Contact)
-		private contactRepository: Repository<Contact>,
-		private phoneService: PhonesService,
 		private dataSource: DataSource
 	) {}
 
@@ -36,6 +33,15 @@ export class ContactService {
 					const phoneDto = plainToInstance(CreatePhoneDto, phoneDataExt);
 					await validateOrReject(phoneDto);
 					const phone = await queryRunner.manager.save(Phone, phoneDto);
+				}
+			}
+			if (emails) {
+				//save emails
+				for (const emailData of emails) {
+					const emailDataExt = {...emailData, contact_id: contact.contact_id}
+					const emailDto = plainToInstance(CreateEmailDto, emailDataExt);
+					await validateOrReject(emailDto);
+					const email = await queryRunner.manager.save(Email, emailDto);
 				}
 			}
 			//commit transaction

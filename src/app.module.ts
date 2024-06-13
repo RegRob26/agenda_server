@@ -9,6 +9,7 @@ import { AuthModule } from './middleware/auth/auth.module';
 import { ContactModule } from './contact/contact.module';
 import { Contact } from './contact/entities/contact.entity';
 import { Phone } from './contact/phones/entities/phone.entity';
+import { Email } from './contact/emails/entities/email.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { Phone } from './contact/phones/entities/phone.entity';
         username: configService.get<string>('DATABASE_USER'),
         password: configService.get<string>('DATABASE_PWD'),
         database: configService.get<string>('DATABASE_DATABASE'),
-        entities: [User, Contact, Phone],
+        entities: [User, Contact, Phone, Email],
         synchronize: true,
         logging: true,
       }),
