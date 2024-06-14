@@ -19,7 +19,7 @@ import { Email } from './contact/emails/entities/email.entity';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
+        type: configService.get<string>('DATABASE_TYPE') === 'mysql' ? 'mysql' : 'postgres',
         host: configService.get<string>('DATABASE_HOST'),
         port: configService.get<number>('DATABASE_PORT'),
         username: configService.get<string>('DATABASE_USER'),
