@@ -1,5 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Phone } from '../phones/entities/phone.entity';
+import { Email } from '../emails/entities/email.entity';
 
 @Entity('Contacts')
 export class Contact {
@@ -41,4 +43,12 @@ export class Contact {
   })
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Phone, (phone) => phone.contact)
+  phones: Phone[];
+
+  @OneToMany(() => Email, (email) => email.contact)
+  emails: Email[];
+
+
 }

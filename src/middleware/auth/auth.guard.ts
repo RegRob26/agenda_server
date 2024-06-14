@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
 				}
 			);
 			console.log('Payload: ', payload);
-			request['user'] = payload;
+			request.user = payload;
 		} catch {
 			throw new UnauthorizedException();
 		}
@@ -41,9 +41,12 @@ export class AuthGuard implements CanActivate {
 	}
 
 	private extractTokenFromHeader(request: Request): string | undefined {
-		console.log('Request: ', request.headers);
-		const [type, token] = request.headers['authorization'].split(' ') ?? [];
-		return type === 'Bearer' ? token : undefined;
+		try {
+			const [type, token] = request.headers['authorization'].split(' ') ?? [];
+			return type === 'Bearer' ? token : undefined;
+		} catch (e) {
+			return undefined
+		}
 	}
 
 }

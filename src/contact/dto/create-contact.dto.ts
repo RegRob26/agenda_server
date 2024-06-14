@@ -1,15 +1,15 @@
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { CreatePhoneDto } from '../phones/dto/create-phone.dto';
+import { CreateEmailDto } from '../emails/dto/create-email.dto';
 
 export class CreateContactDto {
 
 	@IsNotEmpty()
 	@IsNumber()
+	@Transform((value) => parseInt(value.value))
 	user_id: number;
-
-/*	@IsNotEmpty()
-	@IsString()
-	image_link: string;*/
 
 	@IsNotEmpty()
 	@IsString()
@@ -30,12 +30,12 @@ export class CreateContactDto {
 	@IsArray()
 	@IsNotEmpty()
 	@ValidateNested({ each: true })
-	@IsObject({ each: true })
-	phones: Record<string, any>[];
+	@Type(() => CreatePhoneDto)
+	phones: CreatePhoneDto[];
 
 	@IsArray()
 	@IsNotEmpty()
 	@ValidateNested({ each: true })
-	@IsObject({ each: true })
-	emails:  Record<string, any>[];
+	@Type(() => CreateEmailDto)
+	emails:  CreateEmailDto[];
 }

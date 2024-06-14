@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ConstantsLabels } from '../../phones/entities/phone.entity';
 
 export class CreateEmailDto {
@@ -11,5 +11,6 @@ export class CreateEmailDto {
 
 	@IsNumber()
 	@IsNotEmpty()
+	@IsOptional()
 	contact_id: number;
 }

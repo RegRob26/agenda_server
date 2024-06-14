@@ -14,10 +14,10 @@ export class Phone {
 	phone_id: number;
 
 	@Column()
-	contact_id: number;
+	phone_number: string;
 
 	@Column()
-	phone_number: string;
+	contact_id: number;
 
 	//maybe we can use label table instead of enum
 	@Column({
@@ -32,7 +32,7 @@ export class Phone {
 	})
 	is_primary: boolean;
 
-	@ManyToOne(() => Contact, contact => contact.contact_id, {
+	@ManyToOne(() => Contact, contact => contact.phones, {
 		onDelete: 'CASCADE',
 		onUpdate: 'CASCADE'
 	})

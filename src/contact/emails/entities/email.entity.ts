@@ -26,7 +26,7 @@ export class Email {
 	})
 	is_primary: boolean;
 
-	@ManyToOne(() => Contact, contact => contact.contact_id, {
+	@ManyToOne(() => Contact, contact => contact.emails, {
 		onDelete: 'CASCADE',
 		onUpdate: 'CASCADE'
 	})
