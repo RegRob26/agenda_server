@@ -53,12 +53,25 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const query = await this.usersRepository.createQueryBuilder('user');
+    query.where('user.user_id = :user_id', {user_id: id})
+    query.select(['user.user_id', 'user.email', 'user.first_name', 'user.middle_name', 'user.last_name',
+            'user.second_last_name', 'user.phone'])
+    const user = await query.getOne()
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado')
+    }
+    return {user, message: 'Usuario encontrado con éxito', statusCode: 200}
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    try {
+        await this.usersRepository.update(id, updateUserDto)
+        return { message: 'Usuario actualizado con éxito', statusCode: 200}
+    } catch (e) {
+      throw e
+    }
   }
 
   remove(id: number) {
